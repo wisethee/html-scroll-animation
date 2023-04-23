@@ -5,34 +5,53 @@ document.addEventListener("DOMContentLoaded", () => {
   const startContainerOffsetHeight = startContainer.offsetHeight;
   const endContainerOffsetHeight = endContainer.offsetHeight;
 
-  const startContainerRectTop = startContainer.getBoundingClientRect().top;
+  const startContainerRectTop = startContainer.offsetTop;
 
   let lastKnownScrollPosition = 0;
   let ticking = false;
 
+  const translateElement = (element, y) => {
+    element.style.transform = `translateY(${y}px)`;
+  };
+
   const animate = (lastKnownScrollPosition) => {
-    const startingPoint = lastKnownScrollPosition - startContainerRectTop;
+    let startingPoint = lastKnownScrollPosition - startContainerRectTop;
     const endPoint = endContainerOffsetHeight - startContainerOffsetHeight;
 
     if (startingPoint < 0) {
-      startContainer.style.transform = `translateY(0px)`;
+      translateElement(startContainer, 0);
     } else if (startingPoint > 0 && startingPoint <= endPoint) {
-      startContainer.style.transform = `translateY(${startingPoint}px)`;
+      translateElement(startContainer, startingPoint);
     } else if (startingPoint > endPoint) {
-      startContainer.style.transform = `translateY(${endPoint}px)`;
+      translateElement(startContainer, endPoint);
     }
   };
 
-  document.addEventListener("scroll", () => {
-    lastKnownScrollPosition = window.scrollY;
+  // Example debounce function
+  const debounce = (func, delay) => {
+    let timerId;
+    return (...args) => {
+      clearTimeout(timerId);
+      timerId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
 
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        animate(lastKnownScrollPosition);
-        ticking = false;
-      });
+  document.addEventListener(
+    "scroll",
+    debounce(() => {
+      lastKnownScrollPosition = window.scrollY;
 
-      ticking = true;
-    }
-  });
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          animate(lastKnownScrollPosition);
+          ticking = false;
+        });
+
+        ticking = true;
+      }
+    }),
+    100
+  );
 });

@@ -15,11 +15,13 @@ body {
 }
 
 .start-container {
+  position: relative;
   flex-basis: 50%;
   height: 15rem;
   background-color: beige;
   padding: 1.5rem;
   border-radius: 1rem;
+  transform: rotateY(0);
 }
 
 .end-container {
