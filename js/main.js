@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const endContainerOffsetHeight = endContainer.offsetHeight;
 
   const startContainerRectTop = startContainer.getBoundingClientRect().top;
-  const endContainerRectTop = endContainer.getBoundingClientRect().top;
 
   let lastKnownScrollPosition = 0;
   let ticking = false;
@@ -19,8 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
       startContainer.style.transform = `translateY(0px)`;
     } else if (startingPoint > 0 && startingPoint <= endPoint) {
       startContainer.style.transform = `translateY(${startingPoint}px)`;
-      // console.log("starting point: ", startingPoint);
-      // console.log("end point: ", endPoint);
     } else if (startingPoint > endPoint) {
       startContainer.style.transform = `translateY(${endPoint}px)`;
     }
