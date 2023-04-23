@@ -15,7 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const animate = (lastKnownScrollPosition) => {
-    let startingPoint = lastKnownScrollPosition - startContainerRectTop;
+    const center = window.innerHeight / 2 - startContainerOffsetHeight / 2;
+    let startingPoint =
+      lastKnownScrollPosition - startContainerRectTop + center;
     const endPoint = endContainerOffsetHeight - startContainerOffsetHeight;
 
     if (startingPoint < 0) {
